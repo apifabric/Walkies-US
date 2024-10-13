@@ -1,0 +1,352 @@
+about:
+  date: October 13, 2024 15:36:57
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 14
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Appointment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: dog_id
+    - name: owner_id
+    - name: schedule_id
+    description: Represents a booked appointment for walking
+    info_list: Represents a booked appointment for walking
+    tab_groups:
+    - direction: toone
+      fks:
+      - dog_id
+      name: dog
+      resource: Dog
+    - direction: toone
+      fks:
+      - owner_id
+      name: owner
+      resource: Owner
+    - direction: toone
+      fks:
+      - schedule_id
+      name: schedule
+      resource: WalkerSchedule
+    type: Appointment
+    user_key: id
+  Dog:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: owner_id
+    - name: id
+    - name: breed
+    description: Represents a dog with details about its owner
+    info_list: Represents a dog with details about its owner
+    tab_groups:
+    - direction: tomany
+      fks:
+      - dog_id
+      name: AppointmentList
+      resource: Appointment
+    - direction: tomany
+      fks:
+      - dog_id
+      name: WalkList
+      resource: Walk
+    - direction: toone
+      fks:
+      - owner_id
+      name: owner
+      resource: Owner
+    type: Dog
+    user_key: name
+  Feedback:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: owner_id
+    - name: walk_id
+    - name: comments
+    - name: rating
+    description: Represents feedback for a walking session
+    info_list: Represents feedback for a walking session
+    tab_groups:
+    - direction: toone
+      fks:
+      - owner_id
+      name: owner
+      resource: Owner
+    - direction: toone
+      fks:
+      - walk_id
+      name: walk
+      resource: Walk
+    type: Feedback
+    user_key: id
+  Location:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: address
+    - name: id
+    description: Represents a location for dog walking
+    info_list: Represents a location for dog walking
+    type: Location
+    user_key: name
+  Owner:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: email
+    - name: id
+    description: Represents a dog owner
+    info_list: Represents a dog owner
+    tab_groups:
+    - direction: tomany
+      fks:
+      - owner_id
+      name: AppointmentList
+      resource: Appointment
+    - direction: tomany
+      fks:
+      - owner_id
+      name: DogList
+      resource: Dog
+    - direction: tomany
+      fks:
+      - owner_id
+      name: FeedbackList
+      resource: Feedback
+    - direction: tomany
+      fks:
+      - owner_id
+      name: PaymentList
+      resource: Payment
+    - direction: tomany
+      fks:
+      - owner_id
+      name: SubscriptionList
+      resource: Subscription
+    type: Owner
+    user_key: name
+  Payment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: owner_id
+    - name: amount
+    - name: date
+    description: Represents a payment made for a service
+    info_list: Represents a payment made for a service
+    tab_groups:
+    - direction: toone
+      fks:
+      - owner_id
+      name: owner
+      resource: Owner
+    type: Payment
+    user_key: id
+  Service:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: price
+    - name: id
+    description: Represents different walking services offered
+    info_list: Represents different walking services offered
+    tab_groups:
+    - direction: tomany
+      fks:
+      - service_id
+      name: SubscriptionList
+      resource: Subscription
+    - direction: tomany
+      fks:
+      - service_id
+      name: WalkServiceList
+      resource: WalkService
+    type: Service
+    user_key: name
+  Subscription:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: owner_id
+    - name: service_id
+    - name: start_date
+    - name: end_date
+    description: Represents a subscription plan for walking services
+    info_list: Represents a subscription plan for walking services
+    tab_groups:
+    - direction: toone
+      fks:
+      - owner_id
+      name: owner
+      resource: Owner
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: Service
+    type: Subscription
+    user_key: id
+  Walk:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: dog_id
+    - name: walker_id
+    - name: time
+    - name: duration
+    - name: distance
+    description: Represents a walking session, tracks time and distance
+    info_list: Represents a walking session, tracks time and distance
+    tab_groups:
+    - direction: tomany
+      fks:
+      - walk_id
+      name: FeedbackList
+      resource: Feedback
+    - direction: tomany
+      fks:
+      - walk_id
+      name: WalkServiceList
+      resource: WalkService
+    - direction: toone
+      fks:
+      - dog_id
+      name: dog
+      resource: Dog
+    - direction: toone
+      fks:
+      - walker_id
+      name: walker
+      resource: Walker
+    type: Walk
+    user_key: id
+  WalkService:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: service_id
+    - name: walk_id
+    description: Represents a walk associated with a particular service
+    info_list: Represents a walk associated with a particular service
+    tab_groups:
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: Service
+    - direction: toone
+      fks:
+      - walk_id
+      name: walk
+      resource: Walk
+    type: WalkService
+    user_key: id
+  Walker:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: phone
+    - name: id
+    description: Represents a dog walker
+    info_list: Represents a dog walker
+    tab_groups:
+    - direction: tomany
+      fks:
+      - walker_id
+      name: WalkList
+      resource: Walk
+    - direction: tomany
+      fks:
+      - walker_id
+      name: WalkerScheduleList
+      resource: WalkerSchedule
+    type: Walker
+    user_key: name
+  WalkerSchedule:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: walker_id
+    - name: day_of_week
+    - name: start_time
+    - name: end_time
+    description: Represents a schedule for walkers
+    info_list: Represents a schedule for walkers
+    tab_groups:
+    - direction: tomany
+      fks:
+      - schedule_id
+      name: AppointmentList
+      resource: Appointment
+    - direction: toone
+      fks:
+      - walker_id
+      name: walker
+      resource: Walker
+    type: WalkerSchedule
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

@@ -1,0 +1,104 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+
+Table Appointment {
+    id INTEGER [primary key]
+    owner_id INTEGER 
+    dog_id INTEGER 
+    schedule_id INTEGER 
+    }
+
+Table Dog {
+    id INTEGER [primary key]
+    name VARCHAR 
+    breed VARCHAR 
+    owner_id INTEGER 
+    }
+
+Table Owner {
+    id INTEGER [primary key]
+    name VARCHAR 
+    email VARCHAR 
+    }
+
+Table WalkerSchedule {
+    id INTEGER [primary key]
+    walker_id INTEGER 
+    day_of_week VARCHAR 
+    start_time DATETIME 
+    end_time DATETIME 
+    }
+
+Table Feedback {
+    id INTEGER [primary key]
+    walk_id INTEGER 
+    owner_id INTEGER 
+    comments VARCHAR 
+    rating INTEGER 
+    }
+
+Table Walk {
+    id INTEGER [primary key]
+    dog_id INTEGER 
+    walker_id INTEGER 
+    time DATETIME 
+    duration INTEGER 
+    distance FLOAT 
+    }
+
+Table Location {
+    id INTEGER [primary key]
+    name VARCHAR 
+    address VARCHAR 
+    }
+
+Table Payment {
+    id INTEGER [primary key]
+    owner_id INTEGER 
+    amount FLOAT 
+    date DATETIME 
+    }
+
+Table Service {
+    id INTEGER [primary key]
+    name VARCHAR 
+    price FLOAT 
+    }
+
+Table Subscription {
+    id INTEGER [primary key]
+    owner_id INTEGER 
+    service_id INTEGER 
+    start_date DATETIME 
+    end_date DATETIME 
+    }
+
+Table Walker {
+    id INTEGER [primary key]
+    name VARCHAR 
+    phone VARCHAR 
+    }
+
+Table WalkService {
+    id INTEGER [primary key]
+    walk_id INTEGER 
+    service_id INTEGER 
+    }
+
+
+
+// Relationships
+    Ref: Appointment.(dog_id) < Dog.(id)
+    Ref: Appointment.(owner_id) < Owner.(id)
+    Ref: Appointment.(schedule_id) < WalkerSchedule.(id)
+    Ref: Dog.(owner_id) < Owner.(id)
+    Ref: WalkerSchedule.(walker_id) < Walker.(id)
+    Ref: Feedback.(owner_id) < Owner.(id)
+    Ref: Feedback.(walk_id) < Walk.(id)
+    Ref: Walk.(dog_id) < Dog.(id)
+    Ref: Walk.(walker_id) < Walker.(id)
+    Ref: Payment.(owner_id) < Owner.(id)
+    Ref: Subscription.(owner_id) < Owner.(id)
+    Ref: Subscription.(service_id) < Service.(id)
+    Ref: WalkService.(service_id) < Service.(id)
+    Ref: WalkService.(walk_id) < Walk.(id)

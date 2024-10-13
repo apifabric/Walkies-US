@@ -1,0 +1,141 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Walker_form_edit" 
+        service="Walker" 
+        entity="Walker" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #phone attr="phone" label="phone" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="WALK-walker_id">
+    <div layout-padding>
+      <o-table 
+        attr="WalkTable" 
+        service="Walk" 
+        entity="Walk" 
+        keys="id"
+        parent-keys="walker_id:id"
+        columns="id;dog_id;walker_id;time;duration;distance"  
+        horizontal-scroll="yes"
+        detail-form-route="Walk" 
+        edit-form-route="Walk"
+        visible-columns="id;dog_id;walker_id;time;duration;distance"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="dog_id" title="dog_id">
+    <o-table-cell-renderer-service attr="dog_id" 
+        service="Dog" entity="DogType" columns="id;name"
+        parent-keys="id:dog_id"
+        value-column="name" keys="dog_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="walker_id" title="walker_id">
+    <o-table-cell-renderer-service attr="walker_id" 
+        service="Walker" entity="WalkerType" columns="id;name"
+        parent-keys="id:walker_id"
+        value-column="name" keys="walker_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-date-input #time attr="time" type="date" label="time" enabled="yes" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+          <o-table-column #duration attr="duration" title="duration" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column #distance attr="distance" title="distance" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="WALKERSCHEDULE-walker_id">
+    <div layout-padding>
+      <o-table 
+        attr="WalkerScheduleTable" 
+        service="WalkerSchedule" 
+        entity="WalkerSchedule" 
+        keys="id"
+        parent-keys="walker_id:id"
+        columns="id;walker_id;day_of_week;start_time;end_time"  
+        horizontal-scroll="yes"
+        detail-form-route="WalkerSchedule" 
+        edit-form-route="WalkerSchedule"
+        visible-columns="id;walker_id;day_of_week;start_time;end_time"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="walker_id" title="walker_id">
+    <o-table-cell-renderer-service attr="walker_id" 
+        service="Walker" entity="WalkerType" columns="id;name"
+        parent-keys="id:walker_id"
+        value-column="name" keys="walker_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #day_of_week attr="day_of_week" title="day_of_week" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-date-input #start_time attr="start_time" type="date" label="start_time" enabled="yes" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+          <o-date-input #end_time attr="end_time" type="date" label="end_time" enabled="yes" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>
